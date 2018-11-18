@@ -6,6 +6,15 @@ else{
     exit( "You Must Enter Some text Search");
 }
 
+if(isset($_GET["type"])){
+$type = $_GET["type"];
+}
+else{
+    $type = "sites";
+}
+
+
+
 ?>
 
 
@@ -38,8 +47,8 @@ else{
             </div>
             <div class="tabsContainer">
                     <ul class="tabList">
-                        <li><a href='<?php echo "search.php?term=$term&term=sites"; ?>'>Sites</a></li>
-                         <li><a href='<?php echo "search.php?term=$term&term=images"; ?>'>Images</a></li>
+                        <li class="<?php echo $type == 'sites' ? 'active' : '' ?>"><a href='<?php echo "search.php?term=$term&term=sites"; ?>'>Sites</a></li>
+                         <li class="<?php echo $type == 'images' ? 'active' : '' ?>"><a href='<?php echo "search.php?term=$term&term=images"; ?>'>Images</a></li>
                     </ul>
                 </div>
         </div>
