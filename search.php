@@ -20,11 +20,16 @@
                     <form action="search.php" method="get">
                         <div class="searchBarContainer">
                             <input type="text" class="searchBox" name="term">
-                            <button>Search</button>
+                            <button class="searchButton"><img src="assets/images/search.png" alt="Search Icon"></button>
                         </div>
                     </form>
                 </div>
             </div>
+            <div class="tabsContainer">
+                    <ul class="tabList">
+                        <li><a href=''></a></li>
+                    </ul>
+                </div>
         </div>
     </div>
 </body>
