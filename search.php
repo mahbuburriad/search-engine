@@ -9,13 +9,23 @@
 </head>
 
 <body>
-    <div class="wrapper indexPage">
-        <div class="mainSection">
-            <div class="logoContainer">
-                <img src="assets/images/logo.png" alt="riddle search image">
+    <div class="wrapper">
+        <div class="header">
+            <div class="headerContent">
+                <div class="logoContainer">
+                   <a href="index.php"><img src="assets/images/logo-name.png" alt="riddle search image"></a>
+                </div>
+                
+                <div class="searchContainer">
+                    <form action="search.php" method="get">
+                        <div class="searchBarContainer">
+                            <input type="text" class="searchBox" name="term">
+                            <button>Search</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
 </body>
-
 </html>
