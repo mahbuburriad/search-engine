@@ -3,7 +3,6 @@
 include("class/DomDocumentParser.php");
 
 function followLinks($url){
-    
     $parser = new DomDocumentParser($url);
 }
 
