@@ -25,6 +25,7 @@ class SiteResultsProvider
 
         $row = $query->fetch(PDO::FETCH_ASSOC);
         return $row["total"];
+
     }
 
     public function getResultsHtml($page, $pageSize, $term)
@@ -46,9 +47,23 @@ class SiteResultsProvider
 
 
         while ($row = $query->fetch(PDO::FETCH_ASSOC)) {
-
+            $id = $row["id"];
+            $url = $row["url"];
             $title = $row["title"];
-            $resultsHtml .= "$title <br>";
+            $description = $row["description"];
+
+            $resultsHtml .= "<div class='resultContainer'>
+
+								<h3 class='title'>
+									<a class='result' href='$url'>
+										$title
+									</a>
+								</h3>
+								<span class='url'>$url</span>
+								<span class='description'>$description</span>
+
+							</div>";
+
 
         }
 
