@@ -180,6 +180,6 @@ function followLinks($url)
 
 }
 
-$startUrl = "https://www.saltanatglobal.com";
+$startUrl = "https://bangladeshpost.net/";
 followLinks($startUrl);
 ?>
