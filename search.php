@@ -9,6 +9,7 @@ if (isset($_GET["term"])) {
 }
 
 $type = isset($_GET["type"]) ? $_GET["type"] : "sites";
+$page = isset($_GET["page"]) ? $_GET["page"] : 1;
 ?>
 
 
@@ -33,7 +34,7 @@ $type = isset($_GET["type"]) ? $_GET["type"] : "sites";
             <div class="searchContainer">
                 <form action="search.php" method="get">
                     <div class="searchBarContainer">
-                        <input type="text" class="searchBox" name="term">
+                        <input type="text" class="searchBox" name="term" value="<?php echo $term?>">
                         <button class="searchButton"><img src="assets/images/search.png" alt="Search Icon"></button>
                     </div>
                 </form>
@@ -51,11 +52,74 @@ $type = isset($_GET["type"]) ? $_GET["type"] : "sites";
     <div class="mainResultsSection">
         <?php
         $resultsProvider = new SiteResultsProvider($con);
+        $pageLimit = 20;
         $numResults =  $resultsProvider->getNumResults($term);
         echo "<p class='resultsCount'>$numResults results found</p>";
 
-        echo $resultsProvider->getResultsHtml(1,20,$term);
+        echo $resultsProvider->getResultsHtml($page,$pageLimit,$term);
         ?>
+
+    </div>
+
+
+    <div class="paginationContainer">
+
+        <div class="pageButtons">
+            <div class="pageNumberContainer">
+                <img src="assets/images/pageStart.png">
+            </div>
+
+            <?php
+
+            $pagesToShow = 10;
+            $numPages = ceil($numResults/$pageLimit);
+            $pagesLeft = min($pagesToShow, $numPages);
+            $currentPage = $page - floor($pagesToShow/2);
+
+            if ($currentPage < 1){
+                $currentPage = 1;
+            }
+
+
+            while($pagesLeft != 0) {
+
+                if($currentPage == $page) {
+                    echo "<div class='pageNumberContainer'>
+								<img src='assets/images/pageSelected.png'>
+								<span class='pageNumber'>$currentPage</span>
+							</div>";
+                }
+                else {
+                    echo "<div class='pageNumberContainer'>
+								<a href='search.php?term=$term&type=$type&page=$currentPage'>
+									<img src='assets/images/page.png'>
+									<span class='pageNumber'>$currentPage</span>
+								</a>
+						</div>";
+                }
+
+
+                $currentPage++;
+                $pagesLeft--;
+
+            }
+
+
+
+
+
+            ?>
+
+            <div class="pageNumberContainer">
+                <img src="assets/images/pageEnd.png">
+            </div>
+
+
+
+        </div>
+
+
+
 
     </div>
 </div>

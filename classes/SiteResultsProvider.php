@@ -31,15 +31,25 @@ class SiteResultsProvider
     public function getResultsHtml($page, $pageSize, $term)
     {
 
+        $fromLimit = ($page - 1) * $pageSize;
+        //page 1: (1-1) * 20 = 0
+        //page 2: (2-1) * 20 = 20
+        //page 3: (3-1) * 20 = 40
+
+
+
         $query = $this->con->prepare("SELECT * 
 										 FROM sites WHERE title LIKE :term 
 										 OR url LIKE :term 
 										 OR keywords LIKE :term 
 										 OR description LIKE :term
-										 ORDER BY clicks DESC");
+										 ORDER BY clicks DESC
+										 LIMIT :fromLimit, :pageSize");
 
         $searchTerm = "%" . $term . "%";
         $query->bindParam(":term", $searchTerm);
+        $query->bindParam(":fromLimit", $fromLimit, PDO::PARAM_INT);
+        $query->bindParam(":pageSize", $pageSize, PDO::PARAM_INT);
         $query->execute();
 
 
@@ -51,6 +61,9 @@ class SiteResultsProvider
             $url = $row["url"];
             $title = $row["title"];
             $description = $row["description"];
+
+            $title = $this->trimField($title, 55);
+            $description = $this->trimField($description, 230);
 
             $resultsHtml .= "<div class='resultContainer'>
 
@@ -71,6 +84,11 @@ class SiteResultsProvider
         $resultsHtml .= "</div>";
 
         return $resultsHtml;
+    }
+
+    private function trimField($string, $characterLimit){
+        $dots = strlen($string) > $characterLimit ? "..." : "";
+        return substr($string, 0, $characterLimit) . $dots;
     }
 
 
