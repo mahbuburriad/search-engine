@@ -1,6 +1,7 @@
 <?php
 include("config.php");
 include("classes/SiteResultsProvider.php");
+include("classes/ImageResultsProvider.php");
 
 if (isset($_GET["term"])) {
     $term = $_GET["term"];
@@ -20,7 +21,9 @@ $page = isset($_GET["page"]) ? $_GET["page"] : 1;
     <meta charset="UTF-8">
     <link href="assets/images/logo.png" rel=icon type="image/png">
     <title>Search Engine</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.css" />
     <link rel="stylesheet" href="assets/css/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/d3js/5.15.1/d3.min.js"></script>
 </head>
 
 <body>
@@ -34,6 +37,7 @@ $page = isset($_GET["page"]) ? $_GET["page"] : 1;
             <div class="searchContainer">
                 <form action="search.php" method="get">
                     <div class="searchBarContainer">
+                        <input type="hidden" name="type" value="<?php echo $type?>">
                         <input type="text" class="searchBox" name="term" value="<?php echo $term?>">
                         <button class="searchButton"><img src="assets/images/search.png" alt="Search Icon"></button>
                     </div>
@@ -51,8 +55,14 @@ $page = isset($_GET["page"]) ? $_GET["page"] : 1;
     </div>
     <div class="mainResultsSection">
         <?php
-        $resultsProvider = new SiteResultsProvider($con);
-        $pageLimit = 20;
+        if ($type == "sites") {
+            $resultsProvider = new SiteResultsProvider($con);
+            $pageLimit = 20;
+        } else {
+            $resultsProvider = new ImageResultsProvider($con);
+            $pageLimit = 30;
+        }
+
         $numResults =  $resultsProvider->getNumResults($term);
         echo "<p class='resultsCount'>$numResults results found</p>";
 
@@ -127,6 +137,9 @@ $page = isset($_GET["page"]) ? $_GET["page"] : 1;
 
     </div>
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.js"></script>
+<script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
+<script type="text/javascript" src="assets/js/script.js"></script>
 </body>
 
 </html>
